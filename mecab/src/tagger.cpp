@@ -1096,6 +1096,15 @@ Model *createModel(const char *arg) {
   return model;
 }
 
+Model *createModel(const Param &param) {
+  ModelImpl *model = new ModelImpl;
+  if (!model->open(param)) {
+    delete model;
+    return 0;
+  }
+  return model;
+}
+
 void deleteModel(Model *model) {
   delete model;
 }

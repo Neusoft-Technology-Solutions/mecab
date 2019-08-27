@@ -9,6 +9,8 @@
 
 /* C/C++ common data structures  */
 
+namespace MeCab { class Param; }
+
 /**
  * DictionaryInfo structure
  */
@@ -1061,6 +1063,8 @@ public:
   virtual ~Lattice() {}
 };
 
+
+
 /**
  * Model class
  */
@@ -1455,6 +1459,11 @@ MECAB_DLL_EXTERN Model       *createModel(int argc, char **argv);
  * Alias of Mode::create(arg)
  */
 MECAB_DLL_EXTERN Model       *createModel(const char *arg);
+
+/**
+ * Alias of Mode::create(Param*)
+ */
+MECAB_DLL_EXTERN Model       *createModel(const MeCab::Param &param);
 
 /**
  * Alias of Tagger::create(argc, argv)
