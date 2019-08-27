@@ -27,7 +27,7 @@ Target lexical_cast(Source arg) {
 }
 
 template <>
-std::string lexical_cast<std::string, std::string>(std::string arg) {
+inline std::string lexical_cast<std::string, std::string>(std::string arg) {
   return arg;
 }
 }

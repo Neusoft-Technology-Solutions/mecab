@@ -6,6 +6,10 @@
 #ifndef MECAB_ICONV_H
 #define MECAB_ICONV_H
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #if defined HAVE_ICONV
 #include <iconv.h>
 #endif

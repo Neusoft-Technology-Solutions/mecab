@@ -20,9 +20,11 @@
 #endif
 
 #ifdef HAVE_WINDOWS_H
-#define NOMINMAX
-#include <windows.h>
-#include <stdlib.h>
+   #ifndef NOMINMAX
+      #define NOMINMAX
+   #endif
+   #include <windows.h>
+   #include <stdlib.h>
 #endif
 
 #include <stdint.h>

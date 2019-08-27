@@ -19,13 +19,17 @@
 #define _GLIBCXX_EXPORT_TEMPLATE
 #endif
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+//#ifdef HAVE_CONFIG_H
+//#include "config.h"
+//#endif
 
 #if defined(_MSC_VER) || defined(__CYGWIN__)
-#define NOMINMAX
-#define snprintf _snprintf
+   #ifndef NOMINMAX
+      #define NOMINMAX
+   #endif
+   #if !defined( snprintf)
+      #define snprintf _snprintf
+   #endif
 #endif
 
 #define COPYRIGHT "MeCab: Yet Another Part-of-Speech and Morphological Analyzer\n\
@@ -82,15 +86,16 @@
 #endif
 
 #ifdef _WIN32
-#ifdef __GNUC__
-#define WPATH_FORCE(path) (MeCab::Utf8ToWide(path).c_str())
-#define WPATH(path) (path)
+   #ifdef __GNUC__
+      #define WPATH_FORCE(path) (MeCab::Utf8ToWide(path).c_str())
+      #define WPATH(path) (path)
+   #else
+      #define WPATH_FORCE(path) ((LPCWSTR)(path))
+      #define WPATH(path) WPATH_FORCE(path)
+   #endif
 #else
-#define WPATH(path) WPATH_FORCE(path)
-#endif
-#else
-#define WPATH_FORCE(path) (path)
-#define WPATH(path) (path)
+   #define WPATH_FORCE(path) (path)
+   #define WPATH(path) (path)
 #endif
 
 namespace MeCab {
