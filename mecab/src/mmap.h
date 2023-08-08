@@ -150,27 +150,30 @@ template <class T> class Mmap {
       CHECK_FALSE(false) << "unknown open mode: " << filename;
 
     CHECK_FALSE((fd = ::open(filename, flag | O_BINARY)) >= 0)
-        << "open failed: " << filename;
+        << "open failed: " << filename << " error: " << strerror(errno) << " (errno: " << errno << ")";
 
     CHECK_FALSE(::fstat(fd, &st) >= 0)
-        << "failed to get file size: " << filename;
+        << "failed to get file size: " << filename << " error: " << strerror(errno) << " (errno: " << errno << ")";
 
     length = st.st_size;
 
 #ifdef HAVE_MMAP
     int prot = PROT_READ;
     if (flag == O_RDWR) prot |= PROT_WRITE;
-    char *p;
-    CHECK_FALSE((p = reinterpret_cast<char *>
-                 (::mmap(0, length, prot, MAP_SHARED, fd, 0)))
-                != MAP_FAILED)
-        << "mmap() failed: " << filename;
+    char *p = reinterpret_cast<char *>(::mmap(0, length, prot, MAP_SHARED, fd, 0));
+    if (p == MAP_FAILED)
+    {
+      ::close(fd);
+      fd = -1;
+      CHECK_FALSE(p != MAP_FAILED) \
+        << "mmap() failed: " << filename << " length:" << length << " flag: " << flag << " error: " << strerror(errno) << " (errno: " << errno << ")";
+    }
 
     text = reinterpret_cast<T *>(p);
 #else
     text = new T[length];
-    CHECK_FALSE(::read(fd, text, length) >= 0)
-        << "read() failed: " << filename;
+    CHECK_FALSE(::read(fd, text, length) >= 0) \
+        << "read() failed: " << filename  << " length:" << length << " flag: " << flag << " error: " << strerror(errno) << " (errno: " << errno << ")";;
 #endif
     ::close(fd);
     fd = -1;

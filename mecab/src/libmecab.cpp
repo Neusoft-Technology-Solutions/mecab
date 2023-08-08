@@ -17,7 +17,7 @@
 
 namespace {
 const char kUnknownError[] = "Unknown Error";
-const size_t kErrorBufferSize = 256;
+const size_t kErrorBufferSize = 4096;
 }
 
 #if defined(_WIN32) && !defined(__CYGWIN__)

@@ -76,8 +76,7 @@ struct pair_1st_cmp: public std::binary_function<bool, T1, T2> {
 bool Dictionary::open(const char *file, const char *mode) {
   close();
   filename_.assign(file);
-  CHECK_FALSE(dmmap_->open(file, mode))
-      << "no such file or directory: " << file;
+  CHECK_FALSE(dmmap_->open(file, mode)) << " error: " << dmmap_->what();
 
   CHECK_FALSE(dmmap_->size() >= 100)
       << "dictionary file is broken: " << file;
